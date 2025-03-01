@@ -52,6 +52,13 @@ public class VoxelGrid {
     }
 
     public void setVoxel(IVec3 position, Vec4 color) {
+        if(position.getX() < 0) return;
+        if(position.getX() >= size.getX()) return;
+        if(position.getY() < 0) return;
+        if(position.getY() >= size.getY()) return;
+        if(position.getZ() < 0) return;
+        if(position.getZ() >= size.getZ()) return;
+
         voxels[position.getX() + size.getX() * position.getY() + size.getX() * size.getY() * position.getZ()] = color;
     }
 

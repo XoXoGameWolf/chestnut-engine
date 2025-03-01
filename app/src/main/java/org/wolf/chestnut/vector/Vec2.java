@@ -3,6 +3,9 @@ package org.wolf.chestnut.vector;
 import org.wolf.chestnut.vector.Vec3;
 import org.wolf.chestnut.vector.Vec4;
 
+import java.lang.Math;
+import java.util.Random;
+
 public class Vec2 {
     private float x, y;
 
@@ -35,8 +38,41 @@ public class Vec2 {
         return new Vec2(a.getX() / b.getX(), a.getY() / b.getY());
     }
 
+    public Vec2 add(float value) {
+        return new Vec2(x + value, y + value);
+    }
+
+    public Vec2 sub(float value) {
+        return new Vec2(x - value, y - value);
+    }
+
+    public Vec2 mul(float value) {
+        return new Vec2(x * value, y * value);
+    }
+
+    public Vec2 div(float value) {
+        return new Vec2(x / value, y * value);
+    }
+
     public static float dot(Vec2 a, Vec2 b) {
         return a.getX() * b.getX() + a.getY() * b.getY();
+    }
+
+    public Vec2 vary(float amount) {
+        Random random = new Random();
+        float rn = random.nextFloat() * (amount * 2f) - amount;
+        return new Vec2(x + amount, y + amount);
+    }
+
+    public Vec2 rotate(float rotation) {
+        float cos = (float)Math.cos(Math.toRadians(rotation));
+        float sin = (float)Math.sin(Math.toRadians(rotation));
+
+        return new Vec2(x * cos - y * sin, y * cos + x * sin);
+    }
+
+    public Vec2 reciprocal() {
+        return new Vec2(1f / x, 1f / y);
     }
 
     public Vec3 toVec3() {
@@ -45,6 +81,10 @@ public class Vec2 {
 
     public Vec4 toVec4() {
         return new Vec4(x, y, 0f, 1f);
+    }
+
+    public IVec2 toIVec2() {
+        return new IVec2((int)x, (int)y);
     }
 
     public IVec3 toIVec3() {

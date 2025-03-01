@@ -34,16 +34,16 @@ class App extends Chestnut {
         for(int x = 0; x < 100; x++) {
             for(int z = 0; z < 100; z++) {
                 for(int i = 0; i < 100; i++) {
-                    grid.setVoxel(new IVec3(x, i, z), new Vec3(0.5f, 0.4f, 0.3f).vary().toVec4());
+                    grid.setVoxel(new IVec3(x, i, z), new Vec3(0.5f, 0.4f, 0.3f).vary(0.1f).toVec4());
                 }
                 if(random.nextBoolean()) {
-                    grid.setVoxel(new IVec3(x, 100, z), new Vec3(0f, 0.8f, 0f).vary().toVec4());
+                    grid.setVoxel(new IVec3(x, 100, z), new Vec3(0f, 0.8f, 0f).vary(0.1f).toVec4());
                 } else {
-                    grid.setVoxel(new IVec3(x, 100, z), new Vec3(0.5f, 0.4f, 0.3f).vary().toVec4());
+                    grid.setVoxel(new IVec3(x, 100, z), new Vec3(0.5f, 0.4f, 0.3f).vary(0.1f).toVec4());
                 }
-                grid.setVoxel(new IVec3(x, 101, z), new Vec3(0f, 0.8f, 0f).vary().toVec4());
+                grid.setVoxel(new IVec3(x, 101, z), new Vec3(0f, 0.8f, 0f).vary(0.1f).toVec4());
                 if(random.nextBoolean()) {
-                    grid.setVoxel(new IVec3(x, 102, z), new Vec3(0f, 0.8f, 0f).vary().toVec4());
+                    grid.setVoxel(new IVec3(x, 102, z), new Vec3(0f, 0.8f, 0f).vary(0.1f).toVec4());
                 }
             }
         }
@@ -105,6 +105,12 @@ class App extends Chestnut {
 
             if(voxel.getX() != -1) {
                 grid.setVoxel(voxel, new Vec4(0f, 0f, 0f, 0f));
+                grid.setVoxel(IVec3.add(voxel, new IVec3(-1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
+                grid.setVoxel(IVec3.add(voxel, new IVec3(1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
+                grid.setVoxel(IVec3.add(voxel, new IVec3(0, -1, 0)), new Vec4(0f, 0f, 0f, 0f));
+                grid.setVoxel(IVec3.add(voxel, new IVec3(0, 1, 0)), new Vec4(0f, 0f, 0f, 0f));
+                grid.setVoxel(IVec3.add(voxel, new IVec3(0, 0, -1)), new Vec4(0f, 0f, 0f, 0f));
+                grid.setVoxel(IVec3.add(voxel, new IVec3(0, 0, 1)), new Vec4(0f, 0f, 0f, 0f));
                 chunk.setMesh(voxelHandler.generate(grid));
             }
         }

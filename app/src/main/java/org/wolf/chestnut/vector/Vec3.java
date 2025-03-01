@@ -56,9 +56,9 @@ public class Vec3 {
         return a.getX() * b.getX() + a.getY() * b.getY() + a.getZ() * b.getZ();
     }
 
-    public Vec3 vary() {
+    public Vec3 vary(float amount) {
         Random random = new Random();
-        float rn = random.nextFloat() * 0.1f - 0.05f;
+        float rn = random.nextFloat() * (amount * 2f) - amount;
         return new Vec3(x + rn, y + rn, z + rn);
     }
 

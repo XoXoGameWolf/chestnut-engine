@@ -16,5 +16,7 @@ void main() {
     
     vec4 position = view * model * vec4(in_position, 1);
     position.z = -position.z;
-    gl_Position = projection * position;
+    position = projection * position;
+
+    gl_Position = position;
 }
