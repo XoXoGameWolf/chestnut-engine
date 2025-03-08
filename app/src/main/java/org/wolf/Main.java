@@ -10,6 +10,7 @@ import org.wolf.chestnut.matrix.Mat4;
 import org.wolf.chestnut.graphics.Buffer;
 import org.wolf.chestnut.graphics.Mesh;
 import org.wolf.chestnut.graphics.Shader;
+import org.wolf.chestnut.graphics.Texture;
 import org.wolf.chestnut.world.Object;
 import org.wolf.chestnut.world.VoxelGrid;
 import org.wolf.chestnut.util.IO;
@@ -19,14 +20,23 @@ import java.lang.Math;
 import java.util.Random;
 
 class App extends Chestnut {
-    Shader shader;
+    Shader shader_terrain;
+    Shader shader_ui;
+
+    Texture texture_cursor;
+
     VoxelGrid grid;
     Object chunk;
 
-    public App() {super("App", new IVec2(1280, 760));}
+    Object cursor;
+
+    public App() {super("App", new IVec2(1280, 800));}
 
     public void start() {
-        shader = new Shader(renderer, IO.read("shaders/terrain/main.vert"), IO.read("shaders/terrain/main.frag"));
+        shader_terrain = new Shader(renderer, IO.read("assets/shaders/terrain/main.vert"), IO.read("assets/shaders/terrain/main.frag"));
+        shader_ui = new Shader(renderer, IO.read("assets/shaders/ui/main.vert"), IO.read("assets/shaders/ui/main.frag"));
+
+        texture_cursor = IO.readImage(renderer, "assets/textures/cursor.png");
 
         Random random = new Random();
         grid = new VoxelGrid(new IVec3(100, 110, 100));
@@ -50,13 +60,39 @@ class App extends Chestnut {
 
         chunk = new Object(
             voxelHandler.generate(grid), 
+            shader_terrain,
             new Vec3(0f, 0f, 0f), 
             new Vec3(0f, 0f, 0f), 
             new Vec3(0.025f, 0.025f, 0.025f)
         );
 
-        objectHandler.setShader(shader);
+        cursor = new Object(
+            new Mesh(renderer, new Buffer[] {
+                new Buffer(renderer, new Vec3[] {
+                    new Vec3(-1f, -1f, 0f), 
+                    new Vec3(1f, -1f, 0f),
+                    new Vec3(-1f, 1f, 0f),
+                    new Vec3(1f, 1f, 0f)
+                }),
+                new Buffer(renderer, new Vec2[] {
+                    new Vec2(0f, 0f),
+                    new Vec2(1f, 0f),
+                    new Vec2(0f, 1f),
+                    new Vec2(1f, 1f)
+                })
+            }, new Buffer(renderer, new int[] {
+                0, 1, 3,
+                0, 3, 2
+            })),
+            shader_ui,
+            new Vec3(0f, 0f, 0f),
+            new Vec3(0f, 0f, 0f),
+            new Vec3(1f, 1f, 1f)
+        );
+        cursor.setTexture0(texture_cursor);
+
         objectHandler.addObject(chunk);
+        objectHandler.addObject(cursor);
 
         camera.setPosition(new Vec3(0f, 0f, -1f));
         renderer.setColor(new Vec4(0.3f, 0.6f, 1f, 1f));
@@ -92,26 +128,26 @@ class App extends Chestnut {
                 (float)(window.getCursorRel().getX()) * 25f, 
                 0f
             )));
-        }
 
-        if(window.getMouseButtonDown(Keys.LEFT_MOUSE)) {
-            IVec3 voxel = grid.raycast(
-                camera.getPosition(), 
-                camera.getForward(), 
-                new Vec3(0f, 0f, 0f),
-                new Vec3(0f, 0f, 0f),
-                new Vec3(0.025f, 0.025f, 0.025f)
-            );
+            if(window.getMouseButtonDown(Keys.LEFT_MOUSE)) {
+                IVec3 voxel = grid.raycast(
+                    camera.getPosition(), 
+                    camera.getForward(), 
+                    new Vec3(0f, 0f, 0f),
+                    new Vec3(0f, 0f, 0f),
+                    new Vec3(0.025f, 0.025f, 0.025f)
+                );
 
-            if(voxel.getX() != -1) {
-                grid.setVoxel(voxel, new Vec4(0f, 0f, 0f, 0f));
-                grid.setVoxel(IVec3.add(voxel, new IVec3(-1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
-                grid.setVoxel(IVec3.add(voxel, new IVec3(1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
-                grid.setVoxel(IVec3.add(voxel, new IVec3(0, -1, 0)), new Vec4(0f, 0f, 0f, 0f));
-                grid.setVoxel(IVec3.add(voxel, new IVec3(0, 1, 0)), new Vec4(0f, 0f, 0f, 0f));
-                grid.setVoxel(IVec3.add(voxel, new IVec3(0, 0, -1)), new Vec4(0f, 0f, 0f, 0f));
-                grid.setVoxel(IVec3.add(voxel, new IVec3(0, 0, 1)), new Vec4(0f, 0f, 0f, 0f));
-                chunk.setMesh(voxelHandler.generate(grid));
+                if(voxel.getX() != -1) {
+                    grid.setVoxel(voxel, new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(voxel, new IVec3(-1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(voxel, new IVec3(1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(voxel, new IVec3(0, -1, 0)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(voxel, new IVec3(0, 1, 0)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(voxel, new IVec3(0, 0, -1)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(voxel, new IVec3(0, 0, 1)), new Vec4(0f, 0f, 0f, 0f));
+                    chunk.setMesh(voxelHandler.generate(grid));
+                }
             }
         }
     }

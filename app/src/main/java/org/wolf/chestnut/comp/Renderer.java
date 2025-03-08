@@ -13,6 +13,7 @@ import org.wolf.chestnut.graphics.Buffer;
 import org.wolf.chestnut.graphics.Mesh;
 import org.wolf.chestnut.util.Logger;
 import org.wolf.chestnut.graphics.Shader;
+import org.wolf.chestnut.graphics.Texture;
 
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL46;
@@ -21,11 +22,13 @@ import org.lwjgl.system.MemoryUtil;
 import java.util.ArrayList;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.ByteBuffer;
 
 public class Renderer {
     ArrayList<Buffer> buffers = new ArrayList<Buffer>();
     ArrayList<Mesh> meshes = new ArrayList<Mesh>();
     ArrayList<Shader> shaders = new ArrayList<Shader>();
+    ArrayList<Texture> textures = new ArrayList<Texture>();
 
     Vec4 color = new Vec4(0f, 0f, 0f, 1f);
 
@@ -65,6 +68,10 @@ public class Renderer {
             GL46.glDeleteShader(shaders.get(i).getFragmentShader());
         }
 
+        for(int i = 0; i < textures.size(); i++) {
+            GL46.glDeleteTextures(textures.get(i).getTexture());
+        }
+
         Logger.log("Renderer was destroyed.");
     }
 
@@ -87,6 +94,11 @@ public class Renderer {
 
         GL46.glDeleteShader(shader.getVertexShader());
         GL46.glDeleteShader(shader.getFragmentShader());
+    }
+
+    public void destroy(Texture texture) {
+        textures.remove(texture);
+        GL46.glDeleteTextures(texture.getTexture());
     }
 
     public void render(Mesh mesh, Shader shader) {
@@ -198,6 +210,15 @@ public class Renderer {
         GL46.glUseProgram(shader.getProgram());
         int location = GL46.glGetUniformLocation(shader.getProgram(), name);
         GL46.glUniformMatrix4fv(location, false, data);
+        GL46.glUseProgram(0);
+    }
+
+    public void setUniform(Shader shader, String name, Texture value, int number) {
+        GL46.glUseProgram(shader.getProgram());
+        int location = GL46.glGetUniformLocation(shader.getProgram(), name);
+        GL46.glUniform1i(location, number);
+        GL46.glActiveTexture(GL46.GL_TEXTURE0 + number);
+        GL46.glBindTexture(GL46.GL_TEXTURE_2D, value.getTexture());
         GL46.glUseProgram(0);
     }
 
@@ -490,5 +511,34 @@ public class Renderer {
         Buffer buffer2 = new Buffer(buffer, 4, data.length, GL46.GL_UNSIGNED_INT);
         buffers.add(buffer2);
         return buffer2;
+    }
+
+    public Texture createTexture(ByteBuffer buffer, IVec2 resolution) {
+        int texture = GL46.glGenTextures();
+        GL46.glBindTexture(GL46.GL_TEXTURE_2D, texture);
+
+        GL46.glPixelStorei(GL46.GL_UNPACK_ALIGNMENT, 1);
+
+        GL46.glTexParameteri(GL46.GL_TEXTURE_2D, GL46.GL_TEXTURE_MIN_FILTER, GL46.GL_NEAREST);
+        GL46.glTexParameteri(GL46.GL_TEXTURE_2D, GL46.GL_TEXTURE_MAG_FILTER, GL46.GL_NEAREST);
+        GL46.glTexImage2D(
+            GL46.GL_TEXTURE_2D, 
+            0, 
+            GL46.GL_RGBA, 
+            resolution.getX(), 
+            resolution.getY(), 
+            0, 
+            GL46.GL_RGBA, 
+            GL46.GL_UNSIGNED_BYTE,
+            buffer
+        );
+
+        GL46.glGenerateMipmap(GL46.GL_TEXTURE_2D);
+
+        //GL46.glBindTexture(GL46.GL_TEXTURE_2D, 0);
+
+        Texture texture2 = new Texture(texture);
+        textures.add(texture2);
+        return texture2;
     }
 }

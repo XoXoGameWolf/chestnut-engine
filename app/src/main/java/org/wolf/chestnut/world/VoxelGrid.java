@@ -22,7 +22,7 @@ public class VoxelGrid {
 
         int t = 0;
 
-        while(t < 100) {
+        while(t < 10000) {
             if(pos.toIVec3().getX() >= 0 && pos.toIVec3().getX() < size.getX()) {
                 if(pos.toIVec3().getY() >= 0 && pos.toIVec3().getY() < size.getY()) {
                     if(pos.toIVec3().getZ() >= 0 && pos.toIVec3().getZ() < size.getZ()) {
@@ -33,7 +33,7 @@ public class VoxelGrid {
                 }
             }
 
-            pos = Vec3.add(pos, dir);
+            pos = Vec3.add(pos, dir.mul(0.1f));
             t++;
         }
 

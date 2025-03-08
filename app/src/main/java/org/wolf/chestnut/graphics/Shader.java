@@ -10,6 +10,7 @@ import org.wolf.chestnut.vector.IVec4;
 import org.wolf.chestnut.matrix.Mat2;
 import org.wolf.chestnut.matrix.Mat3;
 import org.wolf.chestnut.matrix.Mat4;
+import org.wolf.chestnut.graphics.Texture;
 
 public class Shader {
     private int vertexShader, fragmentShader, program;
@@ -63,6 +64,9 @@ public class Shader {
     }
     public void setUniform(Renderer renderer, String name, Mat4 value) {
         renderer.setUniform(this, name, value);
+    }
+    public void setUniform(Renderer renderer, String name, Texture value, int number) {
+        renderer.setUniform(this, name, value, number);
     }
 
     public int getVertexShader() {return vertexShader;}
