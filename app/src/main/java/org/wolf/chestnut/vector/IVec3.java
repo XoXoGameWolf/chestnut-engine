@@ -1,5 +1,7 @@
 package org.wolf.chestnut.vector;
 
+import java.lang.Math;
+
 public class IVec3 {
     private int x, y, z;
 
@@ -46,7 +48,11 @@ public class IVec3 {
     }
 
     public IVec3 div(int value) {
-        return new IVec3(x / value, y / value, z / value);
+        return new IVec3(
+            (int)Math.floor((float)x / (float)value), 
+            (int)Math.floor((float)y / (float)value), 
+            (int)Math.floor((float)z / (float)value)
+        );
     }
 
     public IVec2 toIVec2() {
@@ -67,6 +73,10 @@ public class IVec3 {
 
     public Vec4 toVec4() {
         return new Vec4((float)x, (float)y, (float)z, 1f);
+    }
+
+    public static boolean equals(IVec3 a, IVec3 b) {
+        return a.getX() == b.getX() && a.getY() == b.getY() && a.getZ() == b.getZ();
     }
 
     public int getX() {return x;}

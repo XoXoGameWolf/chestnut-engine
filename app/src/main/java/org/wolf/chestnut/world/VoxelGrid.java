@@ -1,5 +1,7 @@
 package org.wolf.chestnut.world;
 
+import org.wolf.chestnut.util.HitResult;
+
 import org.wolf.chestnut.vector.Vec3;
 import org.wolf.chestnut.vector.Vec4;
 import org.wolf.chestnut.vector.IVec3;
@@ -16,18 +18,23 @@ public class VoxelGrid {
         }
     }
 
-    public IVec3 raycast(Vec3 position, Vec3 direction, Vec3 gridPos, Vec3 gridRot, Vec3 gridScale) {
+    public VoxelGrid(IVec3 _size, Vec4[] _voxels) {
+        size = _size;
+        voxels = _voxels;
+    }
+
+    public HitResult raycast(Vec3 position, Vec3 direction, Vec3 gridPos, Vec3 gridRot, Vec3 gridScale) {
         Vec3 pos = Vec3.mul(Vec3.sub(position, gridPos).rotate(gridRot.negate()), gridScale.reciprocal());
-        Vec3 dir = direction.rotate(gridRot.negate());
+        Vec3 dir = direction.rotate(gridRot.negate()).normalize();
 
         int t = 0;
 
         while(t < 10000) {
-            if(pos.toIVec3().getX() >= 0 && pos.toIVec3().getX() < size.getX()) {
-                if(pos.toIVec3().getY() >= 0 && pos.toIVec3().getY() < size.getY()) {
-                    if(pos.toIVec3().getZ() >= 0 && pos.toIVec3().getZ() < size.getZ()) {
+            if(pos.getX() >= 0 && pos.getX() < size.getX()) {
+                if(pos.getY() >= 0 && pos.getY() < size.getY()) {
+                    if(pos.getZ() >= 0 && pos.getZ() < size.getZ()) {
                         if(getVoxel(pos.toIVec3()).getW() != 0f) {
-                            return pos.toIVec3();
+                            return new HitResult(true, t, pos.toIVec3());
                         }
                     }
                 }
@@ -37,7 +44,7 @@ public class VoxelGrid {
             t++;
         }
 
-        return new IVec3(-1, -1, -1);
+        return new HitResult(false, -1f, new IVec3(-1, -1, -1));
     }
 
     public Vec4 getVoxel(IVec3 position) {

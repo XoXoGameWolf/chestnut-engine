@@ -34,6 +34,10 @@ public class Renderer {
 
     public Renderer() {
         GL46.glEnable(GL46.GL_DEPTH_TEST);
+        GL46.glEnable(GL46.GL_BLEND);
+
+        GL46.glBlendFunc(GL46.GL_SRC_ALPHA, GL46.GL_ONE_MINUS_SRC_ALPHA);
+        
         Logger.log("Renderer was created.");
     }
 

@@ -1,7 +1,6 @@
 package org.wolf.chestnut.vector;
 
 import java.lang.Math;
-import java.util.Random;
 
 public class IVec2 {
     private int x, y;
@@ -32,7 +31,10 @@ public class IVec2 {
     }
 
     public static IVec2 div(IVec2 a, IVec2 b) {
-        return new IVec2(a.getX() / b.getX(), a.getY() / b.getY());
+        return new IVec2(
+            (int)Math.floor((float)a.getX() / (float)b.getX()), 
+            (int)Math.floor((float)a.getY() / (float)b.getY())
+        );
     }
 
     public IVec2 add(int value) {
@@ -48,7 +50,7 @@ public class IVec2 {
     }
 
     public IVec2 div(int value) {
-        return new IVec2(x / value, y / value);
+        return new IVec2((int)Math.floor((float)x / (float)value), (int)Math.floor((float)y / (float)value));
     }
 
     public IVec3 toIVec3() {
@@ -69,6 +71,10 @@ public class IVec2 {
 
     public Vec4 toVec4() {
         return new Vec4((float)x, (float)y, 0f, 1f);
+    }
+
+    public static boolean equals(IVec2 a, IVec2 b) {
+        return a.getX() == b.getX() && a.getY() == b.getY();
     }
 
     public int getX() {return x;}

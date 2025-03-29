@@ -1,8 +1,5 @@
 package org.wolf.chestnut.vector;
 
-import org.wolf.chestnut.vector.Vec2;
-import org.wolf.chestnut.vector.Vec3;
-
 import java.lang.Math;
 import java.util.Random;
 
@@ -76,6 +73,30 @@ public class Vec4 {
 
     public Vec3 toVec3() {
         return new Vec3(x, y, z);
+    }
+
+    public IVec2 toIVec2() {
+        return new IVec2((int)Math.floor(x), (int)Math.floor(y));
+    }
+
+    public IVec3 toIVec3() {
+        return new IVec3((int)Math.floor(x), (int)Math.floor(y), (int)Math.floor(z));
+    }
+
+    public IVec4 toIVec4() {
+        return new IVec4((int)Math.floor(x), (int)Math.floor(y), (int)Math.floor(z), (int)Math.floor(w));
+    }
+
+    public float length() {
+        return (float)Math.sqrt(x * x + y * y + z * z + w * w);
+    }
+
+    public Vec4 normalize() {
+        return div(length());
+    }
+
+    public static boolean equals(Vec4 a, Vec4 b) {
+        return a.getX() == b.getX() && a.getY() == b.getY() && a.getZ() == b.getZ() && a.getW() == b.getW();
     }
     
     public float getX() {return x;}

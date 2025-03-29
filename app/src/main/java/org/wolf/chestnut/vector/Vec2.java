@@ -51,7 +51,7 @@ public class Vec2 {
     }
 
     public Vec2 div(float value) {
-        return new Vec2(x / value, y * value);
+        return new Vec2(x / value, y / value);
     }
 
     public static float dot(Vec2 a, Vec2 b) {
@@ -84,15 +84,27 @@ public class Vec2 {
     }
 
     public IVec2 toIVec2() {
-        return new IVec2((int)x, (int)y);
+        return new IVec2((int)Math.floor(x), (int)Math.floor(y));
     }
 
     public IVec3 toIVec3() {
-        return new IVec3((int)x, (int)y, 0);
+        return new IVec3((int)Math.floor(x), (int)Math.floor(y), 0);
     }
 
     public IVec4 toIVec4() {
-        return new IVec4((int)x, (int)y, 0, 1);
+        return new IVec4((int)Math.floor(x), (int)Math.floor(y), 0, 1);
+    }
+
+    public float length() {
+        return (float)Math.sqrt(x * x + y * y);
+    }
+
+    public Vec2 normalize() {
+        return div(length());
+    }
+
+    public static boolean equals(Vec2 a, Vec2 b) {
+        return a.getX() == b.getX() && a.getY() == b.getY();
     }
 
     public float getX() {return x;}

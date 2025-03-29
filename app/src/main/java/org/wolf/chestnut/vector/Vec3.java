@@ -91,15 +91,27 @@ public class Vec3 {
     }
 
     public IVec2 toIVec2() {
-        return new IVec2((int)x, (int)y);
+        return new IVec2((int)Math.floor(x), (int)Math.floor(y));
     }
 
     public IVec3 toIVec3() {
-        return new IVec3((int)x, (int)y, (int)z);
+        return new IVec3((int)Math.floor(x), (int)Math.floor(y), (int)Math.floor(z));
     }
 
     public IVec4 toIVec4() {
-        return new IVec4((int)x, (int)y, (int)z, 1);
+        return new IVec4((int)Math.floor(x), (int)Math.floor(y), (int)Math.floor(z), 1);
+    }
+
+    public float length() {
+        return (float)Math.sqrt(x * x + y * y + z * z);
+    }
+
+    public Vec3 normalize() {
+        return div(length());
+    }
+
+    public static boolean equals(Vec3 a, Vec3 b) {
+        return a.getX() == b.getX() && a.getY() == b.getY() && a.getZ() == b.getZ();
     }
 
     public float getX() {return x;}

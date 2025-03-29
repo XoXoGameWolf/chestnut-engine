@@ -6,15 +6,20 @@ import org.wolf.chestnut.vector.IVec3;
 import org.wolf.chestnut.vector.IVec2;
 import org.wolf.chestnut.vector.Vec3;
 import org.wolf.chestnut.vector.Vec4;
+
 import org.wolf.chestnut.matrix.Mat4;
+
 import org.wolf.chestnut.graphics.Buffer;
 import org.wolf.chestnut.graphics.Mesh;
 import org.wolf.chestnut.graphics.Shader;
 import org.wolf.chestnut.graphics.Texture;
+
 import org.wolf.chestnut.world.Object;
 import org.wolf.chestnut.world.VoxelGrid;
+
 import org.wolf.chestnut.util.IO;
 import org.wolf.chestnut.util.Keys;
+import org.wolf.chestnut.util.HitResult;
 
 import java.lang.Math;
 import java.util.Random;
@@ -69,16 +74,16 @@ class App extends Chestnut {
         cursor = new Object(
             new Mesh(renderer, new Buffer[] {
                 new Buffer(renderer, new Vec3[] {
-                    new Vec3(-1f, -1f, 0f), 
-                    new Vec3(1f, -1f, 0f),
-                    new Vec3(-1f, 1f, 0f),
-                    new Vec3(1f, 1f, 0f)
+                    new Vec3(-0.05f, -0.05f, 0f), 
+                    new Vec3(0.05f, -0.05f, 0f),
+                    new Vec3(-0.05f, 0.05f, 0f),
+                    new Vec3(0.05f, 0.05f, 0f)
                 }),
                 new Buffer(renderer, new Vec2[] {
-                    new Vec2(0f, 0f),
-                    new Vec2(1f, 0f),
                     new Vec2(0f, 1f),
-                    new Vec2(1f, 1f)
+                    new Vec2(1f, 1f),
+                    new Vec2(0f, 0f),
+                    new Vec2(1f, 0f)
                 })
             }, new Buffer(renderer, new int[] {
                 0, 1, 3,
@@ -124,13 +129,13 @@ class App extends Chestnut {
 
         if(window.getMouseGrab()) {
             camera.setRotation(Vec3.add(camera.getRotation(), new Vec3(
-                (float)(window.getCursorRel().getY()) * 25f, 
-                (float)(window.getCursorRel().getX()) * 25f, 
+                (float)(window.getCursorRel().getY()) * 50f, 
+                (float)(window.getCursorRel().getX()) * 50f, 
                 0f
             )));
 
             if(window.getMouseButtonDown(Keys.LEFT_MOUSE)) {
-                IVec3 voxel = grid.raycast(
+                HitResult result = grid.raycast(
                     camera.getPosition(), 
                     camera.getForward(), 
                     new Vec3(0f, 0f, 0f),
@@ -138,14 +143,14 @@ class App extends Chestnut {
                     new Vec3(0.025f, 0.025f, 0.025f)
                 );
 
-                if(voxel.getX() != -1) {
-                    grid.setVoxel(voxel, new Vec4(0f, 0f, 0f, 0f));
-                    grid.setVoxel(IVec3.add(voxel, new IVec3(-1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
-                    grid.setVoxel(IVec3.add(voxel, new IVec3(1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
-                    grid.setVoxel(IVec3.add(voxel, new IVec3(0, -1, 0)), new Vec4(0f, 0f, 0f, 0f));
-                    grid.setVoxel(IVec3.add(voxel, new IVec3(0, 1, 0)), new Vec4(0f, 0f, 0f, 0f));
-                    grid.setVoxel(IVec3.add(voxel, new IVec3(0, 0, -1)), new Vec4(0f, 0f, 0f, 0f));
-                    grid.setVoxel(IVec3.add(voxel, new IVec3(0, 0, 1)), new Vec4(0f, 0f, 0f, 0f));
+                if(result.getHit()) {
+                    grid.setVoxel(result.getPosition(), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(result.getPosition(), new IVec3(-1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(result.getPosition(), new IVec3(1, 0, 0)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(result.getPosition(), new IVec3(0, -1, 0)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(result.getPosition(), new IVec3(0, 1, 0)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(result.getPosition(), new IVec3(0, 0, -1)), new Vec4(0f, 0f, 0f, 0f));
+                    grid.setVoxel(IVec3.add(result.getPosition(), new IVec3(0, 0, 1)), new Vec4(0f, 0f, 0f, 0f));
                     chunk.setMesh(voxelHandler.generate(grid));
                 }
             }
