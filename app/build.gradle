@@ -7,12 +7,25 @@ repositories {
 }
 
 dependencies {
+    // png decoder (necessary temporarily)
     implementation "org.l33tlabs.twl:pngdecoder:1.0"
 
+    // lwjgl libraries
     implementation "org.lwjgl:lwjgl:3.3.4"
 	implementation "org.lwjgl:lwjgl-glfw:3.3.4"
 	implementation "org.lwjgl:lwjgl-opengl:3.3.4"
 
+    // windows natives
+    runtimeOnly "org.lwjgl:lwjgl::natives-windows"
+    runtimeOnly "org.lwjgl:lwjgl-glfw::natives-windows"
+    runtimeOnly "org.lwjgl:lwjgl-opengl::natives-windows"
+
+    // macos natives
+    runtimeOnly "org.lwjgl:lwjgl::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl-glfw::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl-opengl::natives-macos"
+
+    // linux natives
     runtimeOnly "org.lwjgl:lwjgl::natives-linux"
 	runtimeOnly "org.lwjgl:lwjgl-glfw::natives-linux"
 	runtimeOnly "org.lwjgl:lwjgl-opengl::natives-linux"
@@ -26,4 +39,14 @@ java {
 
 application {
     mainClass = 'org.wolf.Main'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.wolf.Main'
+    }
+    from {
+        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
