@@ -27,36 +27,36 @@ public class InfiniteVoxelGrid {
             voxelHandler = _voxelHandler;
 
             if(generator != null) {
-                Vec4[] voxels = new Vec4[32 * 32 * 32];
-                for(int x = 0; x < 32; x++) {
-                    for(int y = 0; y < 32; y++) {
-                        for(int z = 0; z < 32; z++) {
-                            voxels[x + 32 * y + 32 * 32 * z] = generator.generate(IVec3.add(new IVec3(x, y, z), position.mul(32)));
+                Vec4[] voxels = new Vec4[34 * 34 * 34];
+                for(int x = 0; x < 34; x++) {
+                    for(int y = 0; y < 34; y++) {
+                        for(int z = 0; z < 34; z++) {
+                            voxels[x + 34 * y + 34 * 34 * z] = generator.generate(IVec3.add(new IVec3(x, y, z).sub(1), position.mul(32)));
                         }
                     }
                 }
 
-                grid = new VoxelGrid(new IVec3(32, 32, 32), voxels);
+                grid = new VoxelGrid(new IVec3(34, 34, 34), voxels);
             } else {
-                grid = new VoxelGrid(new IVec3(32, 32, 32));
+                grid = new VoxelGrid(new IVec3(34, 34, 34));
             }
 
             object = new Object(
-                voxelHandler.generate(grid),
+                voxelHandler.generateEdgeless(grid),
                 shader,
-                position.toVec3().mul(3.2f),
+                position.toVec3().mul(3.2f).sub(0.1f),
                 new Vec3(0f, 0f, 0f),
                 new Vec3(0.1f, 0.1f, 0.1f)
             );
         }
 
         public Vec4 getVoxel(IVec3 _position) {
-            return grid.getVoxel(_position);
+            return grid.getVoxel(_position.add(1));
         }
 
         public void setVoxel(IVec3 _position, Vec4 color) {
-            grid.setVoxel(_position, color);
-            object.setMesh(voxelHandler.generate(grid));
+            grid.setVoxel(_position.add(1), color);
+            object.setMesh(voxelHandler.generateEdgeless(grid));
         }
 
         public VoxelGrid getGrid() {
@@ -153,7 +153,7 @@ public class InfiniteVoxelGrid {
         return new HitResult(
             best.getHit(),
             best.getDistance(),
-            IVec3.add(best.getPosition(), best.getHit() ? bestChunk.getPosition().mul(32) : new IVec3(0, 0, 0))
+            IVec3.add(best.getPosition().sub(1), best.getHit() ? bestChunk.getPosition().mul(32) : new IVec3(0, 0, 0))
         );
     }
 
@@ -182,7 +182,35 @@ public class InfiniteVoxelGrid {
     }
 
     public void setVoxel(IVec3 position, Vec4 color) {
+        IVec3 pos = IVec3.sub(position, position.div(32).mul(32));
+
         Chunk chunk = getChunk(position.div(32));
-        if(chunk != null) chunk.setVoxel(IVec3.sub(position, position.div(32).mul(32)), color);
+        if(chunk != null) {
+            chunk.setVoxel(pos, color);
+            if(pos.getX() == 0) {
+                chunk = getChunk(IVec3.add(position.div(32), new IVec3(-1, 0, 0)));
+                chunk.setVoxel(new IVec3(32, pos.getY(), pos.getZ()), color);
+            }
+            if(pos.getX() == 31) {
+                chunk = getChunk(IVec3.add(position.div(32), new IVec3(1, 0, 0)));
+                chunk.setVoxel(new IVec3(-1, pos.getY(), pos.getZ()), color);
+            }
+            if(pos.getY() == 0) {
+                chunk = getChunk(IVec3.add(position.div(32), new IVec3(0, -1, 0)));
+                chunk.setVoxel(new IVec3(pos.getX(), 32, pos.getZ()), color);
+            }
+            if(pos.getY() == 31) {
+                chunk = getChunk(IVec3.add(position.div(32), new IVec3(0, 1, 0)));
+                chunk.setVoxel(new IVec3(pos.getX(), -1, pos.getZ()), color);
+            }
+            if(pos.getZ() == 0) {
+                chunk = getChunk(IVec3.add(position.div(32), new IVec3(0, 0, -1)));
+                chunk.setVoxel(new IVec3(pos.getX(), pos.getY(), 32), color);
+            }
+            if(pos.getZ() == 31) {
+                chunk = getChunk(IVec3.add(position.div(32), new IVec3(0, 0, 1)));
+                chunk.setVoxel(new IVec3(pos.getX(), pos.getY(), -1), color);
+            }
+        }
     }
 }

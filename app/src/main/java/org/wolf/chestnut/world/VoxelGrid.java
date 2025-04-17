@@ -13,6 +13,7 @@ public class VoxelGrid {
     public VoxelGrid(IVec3 _size) {
         size = _size;
         voxels = new Vec4[size.getX() * size.getY() * size.getZ()];
+        
         for(int i = 0; i < voxels.length; i++) {
             voxels[i] = new Vec4(0f, 0f, 0f, 0f);
         }

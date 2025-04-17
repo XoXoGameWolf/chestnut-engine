@@ -28,10 +28,10 @@ public class VoxelHandler {
                     Vec4 color = grid.getVoxel(new IVec3(x, y, z));
 
                     if(color.getW() > grid.getVoxel(new IVec3(x - 1, y, z)).getW()) {
-                        vertices.add(new Vec3((float)x, (float)y,     (float)z + 1));
                         vertices.add(new Vec3((float)x, (float)y,     (float)z    ));
-                        vertices.add(new Vec3((float)x, (float)y + 1, (float)z + 1));
+                        vertices.add(new Vec3((float)x, (float)y,     (float)z + 1));
                         vertices.add(new Vec3((float)x, (float)y + 1, (float)z    ));
+                        vertices.add(new Vec3((float)x, (float)y + 1, (float)z + 1));
                         colors.add(color);
                         colors.add(color);
                         colors.add(color);
@@ -70,10 +70,10 @@ public class VoxelHandler {
                     }
 
                     if(color.getW() > grid.getVoxel(new IVec3(x, y - 1, z)).getW()) {
-                        vertices.add(new Vec3((float)x,     (float)y, (float)z + 1));
-                        vertices.add(new Vec3((float)x + 1, (float)y, (float)z + 1));
                         vertices.add(new Vec3((float)x,     (float)y, (float)z    ));
                         vertices.add(new Vec3((float)x + 1, (float)y, (float)z    ));
+                        vertices.add(new Vec3((float)x,     (float)y, (float)z + 1));
+                        vertices.add(new Vec3((float)x + 1, (float)y, (float)z + 1));
                         colors.add(color);
                         colors.add(color);
                         colors.add(color);
@@ -187,17 +187,17 @@ public class VoxelHandler {
         ArrayList<Vec4> colors = new ArrayList<Vec4>();
         ArrayList<Vec3> normals = new ArrayList<Vec3>();
         ArrayList<Integer> indices = new ArrayList<Integer>();
-    
+
         for(int x = 1; x < grid.getSize().getX() - 1; x++) {
             for(int y = 1; y < grid.getSize().getY() - 1; y++) {
                 for(int z = 1; z < grid.getSize().getZ() - 1; z++) {
                     Vec4 color = grid.getVoxel(new IVec3(x, y, z));
-    
+
                     if(color.getW() > grid.getVoxel(new IVec3(x - 1, y, z)).getW()) {
-                        vertices.add(new Vec3((float)x, (float)y,     (float)z + 1));
                         vertices.add(new Vec3((float)x, (float)y,     (float)z    ));
-                        vertices.add(new Vec3((float)x, (float)y + 1, (float)z + 1));
+                        vertices.add(new Vec3((float)x, (float)y,     (float)z + 1));
                         vertices.add(new Vec3((float)x, (float)y + 1, (float)z    ));
+                        vertices.add(new Vec3((float)x, (float)y + 1, (float)z + 1));
                         colors.add(color);
                         colors.add(color);
                         colors.add(color);
@@ -213,7 +213,7 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
                     }
-    
+
                     if(color.getW() > grid.getVoxel(new IVec3(x + 1, y, z)).getW()) {
                         vertices.add(new Vec3((float)x + 1, (float)y,     (float)z    ));
                         vertices.add(new Vec3((float)x + 1, (float)y,     (float)z + 1));
@@ -234,12 +234,12 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
                     }
-    
+
                     if(color.getW() > grid.getVoxel(new IVec3(x, y - 1, z)).getW()) {
-                        vertices.add(new Vec3((float)x,     (float)y, (float)z + 1));
-                        vertices.add(new Vec3((float)x + 1, (float)y, (float)z + 1));
                         vertices.add(new Vec3((float)x,     (float)y, (float)z    ));
                         vertices.add(new Vec3((float)x + 1, (float)y, (float)z    ));
+                        vertices.add(new Vec3((float)x,     (float)y, (float)z + 1));
+                        vertices.add(new Vec3((float)x + 1, (float)y, (float)z + 1));
                         colors.add(color);
                         colors.add(color);
                         colors.add(color);
@@ -255,7 +255,7 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
                     }
-    
+
                     if(color.getW() > grid.getVoxel(new IVec3(x, y + 1, z)).getW()) {
                         vertices.add(new Vec3((float)x,     (float)y + 1, (float)z    ));
                         vertices.add(new Vec3((float)x + 1, (float)y + 1, (float)z    ));
@@ -276,7 +276,7 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
                     }
-    
+
                     if(color.getW() > grid.getVoxel(new IVec3(x, y, z - 1)).getW()) {
                         vertices.add(new Vec3((float)x,     (float)y,     (float)z));
                         vertices.add(new Vec3((float)x + 1, (float)y,     (float)z));
@@ -297,7 +297,7 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
                     }
-                        
+                    
                     if(color.getW() > grid.getVoxel(new IVec3(x, y, z + 1)).getW()) {
                         vertices.add(new Vec3((float)x,     (float)y,     (float)z + 1));
                         vertices.add(new Vec3((float)x + 1, (float)y,     (float)z + 1));
