@@ -132,11 +132,11 @@ public class InfiniteVoxelGrid {
     }
 
     public HitResult raycast(Vec3 cameraPosition, Vec3 cameraForward) {
-        HitResult best = new HitResult(false, -1f, new IVec3(-1, -1, -1));
+        HitResult best = new HitResult(false, 0f, new IVec3(0, 0, 0));
         Chunk bestChunk = null;
 
         for(int i = 0; i < rendered.size(); i++) {
-            HitResult result = rendered.get(i).getGrid().raycast(
+            HitResult result = rendered.get(i).getGrid().raycastEdgeless(
                 cameraPosition,
                 cameraForward,
                 rendered.get(i).getObject().getPosition(),
@@ -153,7 +153,7 @@ public class InfiniteVoxelGrid {
         return new HitResult(
             best.getHit(),
             best.getDistance(),
-            IVec3.add(best.getPosition().sub(1), best.getHit() ? bestChunk.getPosition().mul(32) : new IVec3(0, 0, 0))
+            IVec3.add(best.getPosition(), best.getHit() ? bestChunk.getPosition().mul(32).sub(1) : new IVec3(0, 0, 0))
         );
     }
 
@@ -187,6 +187,7 @@ public class InfiniteVoxelGrid {
         Chunk chunk = getChunk(position.div(32));
         if(chunk != null) {
             chunk.setVoxel(pos, color);
+            
             if(pos.getX() == 0) {
                 chunk = getChunk(IVec3.add(position.div(32), new IVec3(-1, 0, 0)));
                 chunk.setVoxel(new IVec3(32, pos.getY(), pos.getZ()), color);

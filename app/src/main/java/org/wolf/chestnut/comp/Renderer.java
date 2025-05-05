@@ -220,9 +220,9 @@ public class Renderer {
     public void setUniform(Shader shader, String name, Texture value, int number) {
         GL46.glUseProgram(shader.getProgram());
         int location = GL46.glGetUniformLocation(shader.getProgram(), name);
+        GL46.glBindTexture(GL46.GL_TEXTURE_2D, value.getTexture());
         GL46.glUniform1i(location, number);
         GL46.glActiveTexture(GL46.GL_TEXTURE0 + number);
-        GL46.glBindTexture(GL46.GL_TEXTURE_2D, value.getTexture());
         GL46.glUseProgram(0);
     }
 
@@ -539,7 +539,7 @@ public class Renderer {
 
         GL46.glGenerateMipmap(GL46.GL_TEXTURE_2D);
 
-        //GL46.glBindTexture(GL46.GL_TEXTURE_2D, 0);
+        GL46.glBindTexture(GL46.GL_TEXTURE_2D, 0);
 
         Texture texture2 = new Texture(texture);
         textures.add(texture2);

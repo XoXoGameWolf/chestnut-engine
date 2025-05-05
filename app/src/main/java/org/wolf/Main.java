@@ -129,7 +129,7 @@ class App extends Chestnut {
 
         if(window.getMouseGrab()) {
             camera.setRotation(Vec3.add(camera.getRotation(), new Vec3(
-                (float)(window.getCursorRel().getY()) * 50f, 
+                -(float)(window.getCursorRel().getY()) * 50f, 
                 (float)(window.getCursorRel().getX()) * 50f, 
                 0f
             )));

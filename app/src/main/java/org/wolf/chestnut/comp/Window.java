@@ -95,7 +95,7 @@ public class Window {
             public void invoke(long _window, double _x, double _y) {
                 cursorPos = new Vec2(
                     (float)_x / (float)resolution.getX() * 2f - 1f, 
-                    (float)(-_y / (float)resolution.getY()) * 2f + 1f
+                    (float)(_y / (float)resolution.getY()) * 2f - 1f
                 );
             }
         };
@@ -141,6 +141,7 @@ public class Window {
 
         if(getKeyDown(Keys.F11)) {
             fullscreen = !fullscreen;
+
             if(fullscreen) {
                 GLFW.glfwSetWindowMonitor(window, GLFW.glfwGetPrimaryMonitor(), 0, 0, resolution.getX(), resolution.getY(), 60);
             } else {
@@ -153,6 +154,20 @@ public class Window {
         GLFW.glfwDestroyWindow(window);
 
         Logger.log("Window was destroyed.");
+    }
+
+    public boolean getFullscreen() {
+        return fullscreen;
+    }
+
+    public void setFullscreen(boolean _fullscreen) {
+        fullscreen = _fullscreen;
+
+        if(fullscreen) {
+            GLFW.glfwSetWindowMonitor(window, GLFW.glfwGetPrimaryMonitor(), 0, 0, resolution.getX(), resolution.getY(), 60);
+        } else {
+            GLFW.glfwSetWindowMonitor(window, 0, 0, 0, resolution.getX(), resolution.getY(), 60);
+        }
     }
 
     public boolean isOpen() {return !GLFW.glfwWindowShouldClose(window);}

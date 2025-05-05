@@ -1,8 +1,12 @@
 package org.wolf.chestnut.graphics;
 
 import org.wolf.chestnut.comp.Renderer;
+
 import org.wolf.chestnut.graphics.Buffer;
 import org.wolf.chestnut.graphics.Shader;
+
+import org.wolf.chestnut.vector.Vec2;
+import org.wolf.chestnut.vector.Vec3;
 
 public class Mesh {
     private int vertexArray;
@@ -41,5 +45,22 @@ public class Mesh {
 
     public Buffer getIndexBuffer() {
         return indexBuffer;
+    }
+
+    public static Mesh getQuad(Renderer renderer) {
+        return new Mesh(renderer, new Buffer[] {new Buffer(renderer, new Vec3[] {
+            new Vec3(0f, 0f, 0f),
+            new Vec3(1f, 0f, 0f),
+            new Vec3(0f, 1f, 0f),
+            new Vec3(1f, 1f, 0f)
+        }), new Buffer(renderer, new Vec2[] {
+            new Vec2(0f, 0f),
+            new Vec2(1f, 0f),
+            new Vec2(0f, 1f),
+            new Vec2(1f, 1f)
+        })}, new Buffer(renderer, new int[] {
+            1, 3, 0,
+            0, 3, 2
+        }));
     }
 }

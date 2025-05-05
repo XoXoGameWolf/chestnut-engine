@@ -40,9 +40,9 @@ public class VoxelHandler {
                         normals.add(new Vec3(-1f, 0f, 0f));
                         normals.add(new Vec3(-1f, 0f, 0f));
                         normals.add(new Vec3(-1f, 0f, 0f));
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
@@ -64,9 +64,9 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                     }
 
                     if(color.getW() > grid.getVoxel(new IVec3(x, y - 1, z)).getW()) {
@@ -82,9 +82,9 @@ public class VoxelHandler {
                         normals.add(new Vec3(0f, -1f, 0f));
                         normals.add(new Vec3(0f, -1f, 0f));
                         normals.add(new Vec3(0f, -1f, 0f));
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
@@ -106,9 +106,9 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                     }
 
                     if(color.getW() > grid.getVoxel(new IVec3(x, y, z - 1)).getW()) {
@@ -124,9 +124,9 @@ public class VoxelHandler {
                         normals.add(new Vec3(0f, 0f, -1f));
                         normals.add(new Vec3(0f, 0f, -1f));
                         normals.add(new Vec3(0f, 0f, -1f));
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
@@ -148,9 +148,9 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                     }
                 }
             }
@@ -206,9 +206,9 @@ public class VoxelHandler {
                         normals.add(new Vec3(-1f, 0f, 0f));
                         normals.add(new Vec3(-1f, 0f, 0f));
                         normals.add(new Vec3(-1f, 0f, 0f));
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
@@ -230,9 +230,9 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                     }
 
                     if(color.getW() > grid.getVoxel(new IVec3(x, y - 1, z)).getW()) {
@@ -248,9 +248,9 @@ public class VoxelHandler {
                         normals.add(new Vec3(0f, -1f, 0f));
                         normals.add(new Vec3(0f, -1f, 0f));
                         normals.add(new Vec3(0f, -1f, 0f));
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
@@ -272,9 +272,9 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                     }
 
                     if(color.getW() > grid.getVoxel(new IVec3(x, y, z - 1)).getW()) {
@@ -290,9 +290,9 @@ public class VoxelHandler {
                         normals.add(new Vec3(0f, 0f, -1f));
                         normals.add(new Vec3(0f, 0f, -1f));
                         normals.add(new Vec3(0f, 0f, -1f));
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
@@ -314,9 +314,9 @@ public class VoxelHandler {
                         indices.add(vertices.size() - 4 + 0);
                         indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 1);
-                        indices.add(vertices.size() - 4 + 0);
-                        indices.add(vertices.size() - 4 + 3);
                         indices.add(vertices.size() - 4 + 2);
+                        indices.add(vertices.size() - 4 + 3);
+                        indices.add(vertices.size() - 4 + 0);
                     }
                 }
             }

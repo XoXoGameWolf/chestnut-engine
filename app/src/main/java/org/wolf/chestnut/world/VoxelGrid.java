@@ -48,6 +48,30 @@ public class VoxelGrid {
         return new HitResult(false, -1f, new IVec3(-1, -1, -1));
     }
 
+    public HitResult raycastEdgeless(Vec3 position, Vec3 direction, Vec3 gridPos, Vec3 gridRot, Vec3 gridScale) {
+        Vec3 pos = Vec3.mul(Vec3.sub(position, gridPos).rotate(gridRot.negate()), gridScale.reciprocal());
+        Vec3 dir = direction.rotate(gridRot.negate()).normalize();
+
+        int t = 0;
+
+        while(t < 10000) {
+            if(pos.getX() >= 1 && pos.getX() < size.getX() - 1) {
+                if(pos.getY() >= 1 && pos.getY() < size.getY() - 1) {
+                    if(pos.getZ() >= 1 && pos.getZ() < size.getZ() - 1) {
+                        if(getVoxel(pos.toIVec3()).getW() != 0f) {
+                            return new HitResult(true, t, pos.toIVec3());
+                        }
+                    }
+                }
+            }
+
+            pos = Vec3.add(pos, dir.mul(0.1f));
+            t++;
+        }
+
+        return new HitResult(false, -1f, new IVec3(-1, -1, -1));
+    }
+
     public Vec4 getVoxel(IVec3 position) {
         if(position.getX() < 0) return new Vec4(0f, 0f, 0f, 0f);
         if(position.getX() >= size.getX()) return new Vec4(0f, 0f, 0f, 0f);

@@ -15,6 +15,8 @@ public abstract class Chestnut {
     public ObjectHandler objectHandler;
     public VoxelHandler voxelHandler;
 
+    public boolean running;
+
     public Chestnut(String title, IVec2 resolution) {
         window = new Window(title, resolution);
         renderer = new Renderer();
@@ -22,13 +24,19 @@ public abstract class Chestnut {
         objectHandler = new ObjectHandler(renderer, camera);
         voxelHandler = new VoxelHandler(renderer);
 
+        running = true;
+
         start();
 
-        while(window.isOpen()) {
+        while(running) {
             renderer.update();
             update();
             objectHandler.update();
             window.update();
+
+            if(window.isOpen() == false) {
+                running = false;
+            }
         }
         
         renderer.destroy();
